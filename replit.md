@@ -1,9 +1,10 @@
-# [Project name]
+# WIDBY
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+WIDBY is a local-first native Android streak tracker whose primary experience lives in configurable Jetpack Glance homescreen widgets.
 
 ## Run & Operate
 
+- Android app: `gradle :app:assembleDebug` (requires JDK 17 and the Android SDK)
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
@@ -13,7 +14,9 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
+- Kotlin, Gradle, Android SDK 35, Jetpack Compose, Jetpack Glance
+- Room + WorkManager for local persistence and scheduled auto counters
+- pnpm workspaces, Node.js 24, TypeScript 5.9 (workspace support services)
 - API: Express 5
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
@@ -22,23 +25,34 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `app/src/main/java/com/widby/data` — Room entities, DAO, database, and streak rules
+- `app/src/main/java/com/widby/widget` — Glance widgets, widget actions, and configuration activity
+- `app/src/main/java/com/widby/scheduling` — WorkManager auto-daily and reminder workers
+- `app/src/main/java/com/widby/MainActivity.kt` — Compose streak manager and heatmap
+- `.github/workflows/android.yml` — debug APK CI build
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The app is native Android only; it does not use Expo, React Native, a web wrapper, or a backend.
+- Room is the single local source of truth shared by the app, widgets, and workers.
+- Auto counters use a 15-minute WorkManager sweep so each streak can honor its own reset time without relying on launcher update intervals.
+- Android launcher long-press is reserved for widget movement/resizing; manual widgets expose an explicit Undo action and auto widgets open a confirmed reset flow.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Dark-first streak management list with per-streak accent and icon choices
+- Manual tap and auto-daily streak types
+- Per-widget labels, widget accent/icon overrides, custom reset times, reminders, and heatmap history
+- Small, medium, and large Glance layouts that adapt to available widget width
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+The user explicitly requested a standard Kotlin/Gradle Android project that can later produce an APK through GitHub Actions CI.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- A JDK 17 + Android SDK environment is required to assemble the app.
+- Notification permission is requested on Android 13+; reminders remain optional and local.
 
 ## Pointers
 

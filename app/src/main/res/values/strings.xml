@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WIDBY</string>
+    <string name="manual_widget_description">A tap-to-count streak widget</string>
+    <string name="auto_widget_description">A daily auto-counting streak widget</string>
+</resources>

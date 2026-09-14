@@ -1,0 +1,1 @@
+# WIDBY keeps release shrinking conservative until the first signed APK pipeline is added.
