@@ -47,9 +47,3 @@ Thumbs.db
 # Replit
 .cache/
 .local/
-
-# Android / Gradle
-.gradle/
-build/
-app/build/
-*.iml
